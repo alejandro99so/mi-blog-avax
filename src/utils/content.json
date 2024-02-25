@@ -1,0 +1,36 @@
+[
+    {
+        "es": {
+            "title": "¿Qué es Avalanche?",
+            "summary": "Avalanche es una Blockchain que según la página oficial de Avalanche se describe como: "
+        },
+        "en": {
+            "title": "What is Avalanche?",
+            "summary": "Avalanche is a Blockchain which, according to the official Avalanche website, is described as:"
+        }
+    },
+    {
+        "es": {
+            "title": "¿Qué es una Subnet?",
+            "summary": "Si traducimos a rajatabla el término “Subnet” llegamos a la conclusión de que son dos palabras “sub” y "
+        }
+    },
+    {
+        "es": {
+            "title": "Programemos una Subnet",
+            "summary": "A continuación, vamos a crear, desplegar y usar una subnet de manera local con nuestra wallet de core y metamask, para poder desplegar un código usando remix y hardhat."
+        }
+    },
+    {
+        "es": {
+            "title": "Teleporter",
+            "summary": "Esta tecnología nos permite comunicarnos entre una Blockchain y otra, en este caso entre una subnet y otra, por ahora está disponible entre las subnets de Dispatch (D), Echo (E) y C-Chain"
+        }
+    },
+    {
+        "es": {
+            "title": "Referencias",
+            "summary": "Todas las bases para construir este blog fueron obtenidos del curso de DApps entre subredes con Teleporter de la Academia de Avalanche"
+        }
+    }
+]

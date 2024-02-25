@@ -1,0 +1,14 @@
+.main {
+    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.main_button {
+    background-color: rgb(22, 21, 21);
+    color: white;
+    padding: 1px 1rem 1px 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
