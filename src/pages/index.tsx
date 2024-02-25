@@ -4,15 +4,28 @@ import styles from "../styles/Home.module.css";
 import blogs from "../utils/content.json";
 import Image from "next/image";
 import Head from "next/head";
+import LanguageSelector from "@/components/language";
+import { useEffect, useState } from "react";
+import text from "@/utils/text.json";
 
 const Home: NextPage = () => {
     const handleOnClick = () => {
         window.open("https://twitter.com/avaxcolombia", "_blank");
     };
+    const [lang, setLang] = useState("");
+    const updateLanguage = (code: string) => {
+        setLang(code);
+    };
+
+    useEffect(() => {
+        console.log({ lang });
+    }, [lang]);
     return (
         <>
             <Head>
-                <title>Blog Avax</title>
+                <title>
+                    {text?.avax_blog[lang != "" ? (lang as "en" | "es") : "es"]}
+                </title>
             </Head>
             <div className={styles.main}>
                 <div className={styles.main_title}>
@@ -35,38 +48,63 @@ const Home: NextPage = () => {
                             />
                         </span>
                     </div>
-                    <h1>Guía Avalanche</h1>
+                    <h1>
+                        {
+                            text?.avax_guide[
+                                lang != "" ? (lang as "en" | "es") : "es"
+                            ]
+                        }
+                    </h1>
+                    <LanguageSelector updateLanguage={updateLanguage} />
                 </div>
-                <div className={styles.background}>
-                    <div className={styles.grid}>
-                        {blogs.map((blog, index: number) => (
-                            <BlogCard
-                                key={index}
-                                id={`blog_${String(index)}`}
-                                title={blog["es"].title}
-                                summary={blog["es"].summary}
+                {lang != "" && (
+                    <div>
+                        <div className={styles.background}>
+                            <div className={styles.grid}>
+                                {blogs.map((blog, index: number) => (
+                                    <BlogCard
+                                        key={index}
+                                        lang={lang}
+                                        id={`${lang}_${String(index)}`}
+                                        title={blog[lang as "es" | "en"]?.title}
+                                        summary={
+                                            blog[lang as "es" | "en"].summary
+                                        }
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <div className={styles.footer}>
+                            <Image
+                                src="/images/photo.png"
+                                alt="Foto"
+                                width={250}
+                                height={300}
                             />
-                        ))}
+                            <div className={styles.footer_text}>
+                                👋{" "}
+                                <b>
+                                    {" "}
+                                    {
+                                        text?.summary_bold[
+                                            lang != ""
+                                                ? (lang as "en" | "es")
+                                                : "es"
+                                        ]
+                                    }
+                                </b>{" "}
+                                -{" "}
+                                {
+                                    text?.summary_normal[
+                                        lang != ""
+                                            ? (lang as "en" | "es")
+                                            : "es"
+                                    ]
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.footer}>
-                    <Image
-                        src="/images/photo.png"
-                        alt="Foto"
-                        width={250}
-                        height={300}
-                    />
-                    <div className={styles.footer_text}>
-                        👋 <b>Hola, Soy Alejandro Soto</b> - Un desarrollador de
-                        software apasionado por la tecnología, fui y seré su
-                        guía en este mundo de aprendizaje en la Blockchain de
-                        Avalanche, empezamos por entender los conceptos básicos
-                        de interacción entre Subnets e iremos subiendo el nivel
-                        para hablar de conceptos más técnicos y avanzados,
-                        espero les haya gustado el contenido de esta primera
-                        parte y hayan aprendido bastante!
-                    </div>
-                </div>
+                )}
             </div>
         </>
     );

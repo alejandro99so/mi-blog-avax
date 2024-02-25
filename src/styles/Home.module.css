@@ -28,9 +28,6 @@
   z-index: 1;
   left: 50%;
   margin-left: 40px;
-  /* Use la mitad del ancho para centrarlo */
-
-  /* Transición para suavizar la aparición */
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -70,7 +67,7 @@
 }
 
 .background {
-  background-image: url('/images/avax.png');
+  background-image: url('/images/avax.png') !important;
   position: relative;
   background-size: cover;
   background-position: center;
@@ -90,9 +87,6 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
-  /* Degradado negro con opacidad del 70% */
-  /* Usa dos colores para el degradado si es necesario, por ejemplo: */
-  /* background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0.7)); */
   z-index: 1;
 }
 

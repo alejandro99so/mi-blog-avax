@@ -6,22 +6,23 @@ interface BlogCardProps {
     title: string;
     summary: string;
     id: string;
+    lang: string;
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({ title, summary, id }) => {
+const BlogCard: React.FC<BlogCardProps> = ({ title, summary, id, lang }) => {
     const router = useRouter();
     const handleClick = () => {
         router.push(`/blogs/${id}`);
     };
     return (
         <div className={styles.card} onClick={handleClick}>
-            <p>
+            <div>
                 <b className={styles.card_title}>{title}</b>
                 <br />
                 <br />
                 <div>{summary.slice(0, 60)}...</div>
-                <b>Seguir leyendo</b>
-            </p>
+                <b>{lang == "en" ? "Continue reading" : "Seguir leyendo"}</b>
+            </div>
         </div>
     );
 };

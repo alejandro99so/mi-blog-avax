@@ -6,7 +6,6 @@ import Head from "next/head";
 import blogs from "../../utils/content.json";
 
 const BlogPost = () => {
-    const lang = "es";
     const router = useRouter();
     const { id } = router.query;
     const [content, setContent] = useState("");
@@ -14,8 +13,8 @@ const BlogPost = () => {
     useEffect(() => {
         if (id) {
             if (blogs.length > 0) {
-                const idUsed = Number(id?.slice(5)) ?? 0;
-                setNamePage(blogs[idUsed].es.title);
+                const idUsed = Number(id?.slice(3)) ?? 0;
+                setNamePage(blogs[idUsed][id.slice(0, 2) as "es" | "en"].title);
             }
             fetch(`/content/${id}.mdx`)
                 .then((res) => res.text())
@@ -39,7 +38,7 @@ const BlogPost = () => {
             </Head>
             <div className={styles.main}>
                 <button onClick={handleClick} className={styles.main_button}>
-                    Volver
+                    {id?.slice(0, 2) == "en" ? "Back" : "Volver"}
                 </button>
                 <div dangerouslySetInnerHTML={{ __html: content }} />
             </div>

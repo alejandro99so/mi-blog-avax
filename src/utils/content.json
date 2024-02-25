@@ -13,30 +13,50 @@
         "es": {
             "title": "¿Qué es una Subnet?",
             "summary": "Si traducimos a rajatabla el término “Subnet” llegamos a la conclusión de que son dos palabras “sub” y "
+        },
+        "en": {
+            "title": "What is a Subnet?",
+            "summary": "If we strictly translate the term “Subnet” we come to the conclusion that there are two words “sub” and"
         }
     },
     {
         "es": {
             "title": "Programemos una Subnet",
             "summary": "A continuación, vamos a crear, desplegar y usar una subnet de manera local con nuestra wallet de core y metamask, para poder desplegar un código usando remix y hardhat."
+        },
+        "en": {
+            "title": "Let's program a Subnet",
+            "summary": "Next, we are going to create, deploy and use a subnet locally with our core wallet and metamask, so we can deploy code using remix and hardhat."
         }
     },
     {
         "es": {
             "title": "Teleporter",
             "summary": "Esta tecnología nos permite comunicarnos entre una Blockchain y otra, en este caso entre una subnet y otra, por ahora está disponible entre las subnets de Dispatch (D), Echo (E) y C-Chain"
+        },
+        "en": {
+            "title": "Teleporter",
+            "summary": "This technology allows us to communicate between one Blockchain and another, in this case between one subnet and another, for now it is available between the subnets of Dispatch (D), Echo (E) and C-Chain"
         }
     },
     {
         "es": {
             "title": "Referencias",
-            "summary": "Todas las bases para construir este blog fueron obtenidos del curso de DApps entre subredes con Teleporter de la Academia de Avalanche"
+            "summary": "Todas las bases para construir este blog fueron obtenidos de los cursos de la Academia de Avalanche"
+        },
+        "en": {
+            "title": "References",
+            "summary": "All the bases to build this blog were obtained from the Avalanche Academy courses"
         }
     },
     {
         "es": {
             "title": "Sígueme",
             "summary": "Mis redes sociales"
+        },
+        "en": {
+            "title": "Follow me",
+            "summary": "My social networks"
         }
     }
 ]

@@ -1,0 +1,18 @@
+{
+    "avax_blog": {
+        "es": "Blog Avax",
+        "en": "Avax Blog"
+    },
+    "avax_guide": {
+        "es": "Guía Avalanche",
+        "en": "Avalanche Guide"
+    },
+    "summary_bold": {
+        "es": "Hola, Soy Alejandro Soto",
+        "en": "Hi, I'm Alejandro Soto"
+    },
+    "summary_normal": {
+        "es": "Un desarrollador de software apasionado por la tecnología, fui y seré su guía en este mundo de aprendizaje en la Blockchain de Avalanche, empezamos por entender los conceptos básicos de interacción entre Subnets e iremos subiendo el nivel para hablar de conceptos más técnicos y avanzados, espero les haya gustado el contenido de esta primera parte y hayan aprendido bastante!",
+        "en": "A software developer passionate about technology, I was and will be your guide in this world of learning in the Avalanche Blockchain, we started by understanding the basic concepts of interaction between Subnets and we will raise the level to talk about more technical and advanced concepts, I hope you liked the content of this first part and you learned a lot!"
+    }
+}
