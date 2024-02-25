@@ -1,6 +1,47 @@
-.main {
-  margin: 1rem;
+.main_title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: antiquewhite;
 }
+
+.main_title_image {
+  cursor: pointer;
+}
+
+.main_title_content {
+  position: relative;
+  display: inline-block;
+}
+
+.main_title_image_tooltipText {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  margin-left: 40px;
+  /* Use la mitad del ancho para centrarlo */
+
+  /* Transición para suavizar la aparición */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+
+.main_title_content:hover .main_title_image_tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
+
+
 
 .grid {
   display: grid;
@@ -13,7 +54,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 1rem;
+  padding: 1rem;
+  background-color: antiquewhite;
 }
 
 @media (max-width: 700px) {
@@ -25,4 +67,36 @@
 .footer_text {
   margin: 1rem;
   text-align: justify;
+}
+
+.background {
+  background-image: url('/images/avax.png');
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1;
+  min-height: 35rem;
+}
+
+.background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  /* Degradado negro con opacidad del 70% */
+  /* Usa dos colores para el degradado si es necesario, por ejemplo: */
+  /* background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0.7)); */
+  z-index: 1;
+}
+
+.background>* {
+  position: relative;
+  z-index: 2;
 }
