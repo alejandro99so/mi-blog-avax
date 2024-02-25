@@ -13,7 +13,8 @@ const BlogPost = () => {
             fetch(`/content/${id}.mdx`)
                 .then((res) => res.text())
                 .then((mdxContent) => {
-                    setContent(marked(mdxContent));
+                    const _mdxContent = String(marked(mdxContent));
+                    setContent(_mdxContent);
                 })
                 .catch((err) =>
                     console.error("Error fetching MDX content", err)
