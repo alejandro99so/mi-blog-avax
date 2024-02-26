@@ -1,14 +1,14 @@
-# Programemos una Subnet
+# Let's Program a Subnet
 
-A continuación, vamos a crear, desplegar y usar una subnet de manera local con nuestra wallet de core y metamask, para poder desplegar un código usando remix y hardhat.
+Next, we are going to create, deploy, and use a subnet locally with our core wallet and Metamask, in order to deploy code using Remix and Hardhat.
 
-## Instalación de requerimientos
+## Installation of Requirements
 
-Para empezar con esto debemos instalar el Avalanche CLI en nuestra terminal, pero para esto debemos hacernos la pregunta, ¿Qué sistema operativo tenemos?
+To begin with this, we need to install the Avalanche CLI in our terminal, but first, we must ask ourselves, what operating system do we have?
 
 ### Linux
 
-Para este sistema operativo debemos abrir una terminal y copiar lo siguiente:
+For this operating system, we need to open a terminal and copy the following:
 
 1.  <div style="background-color: #f5f5f5; margin: 10px; padding: 5px; border-radius: 5px;">
         curl -sSfL
@@ -24,281 +24,276 @@ Para este sistema operativo debemos abrir una terminal y copiar lo siguiente:
         export PATH=~/bin:$PATH >> .bashrc
     </div>
 
-Ahora entendamos ¿qué pasó?
+Now let's understand what happened?.
 
-1. En el paso <b>1</b> descargamos e instalamos el archivo binario que requerimos para usar Avalanche CLI en nuestra terminal.
+1. In step <b>1</b> we downloaded and installed the binary file we need to use Avalanche CLI in our terminal.
 
-2. En el paso <b>2</b> exportamos esta ruta para poder llamar nuestro archivo binario desde cualquier ruta en nuestra terminal (Nota: El código funciona tal cual si estamos en la ruta raíz en la términal, ¿Cómo sabemos eso? Porque nuestra terminal empieza así: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">usuario@perfil:~$</span>, si estuviera en una ruta se observara la ruta después del simbolo de ~ y antes del simbolo de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">$</span> de la siguiente manera <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">usuario@perfil:~/myfolder$</span>).
+2. In step <b>2</b> we exported this path so we can call our binary file from any path in our terminal (Note: The code works as is if we are in the root path in the terminal. How do we know that? Because our terminal starts like this: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">usuario@perfil:~$</span>, if we were in a path, the path would be observed after the ~ symbol and before the <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">$</span> symbol like this <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">usuario@perfil:~/myfolder$</span>).
 
-3. Ahora ya quedó pero queremos no tener que exportar esto todo el tiempo por lo que lo agregamos a un archivo que se ejecuta al abrir la terminal, en este caso nuestra términal ejecuta <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">bash</span> por lo que el código se manda al archivo <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">.bashrc</span>, si nuestra términal ejecuta <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">zsh</span> debemos mandar el código a <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">.zshrc</span>, ahora se preguntaran que ni idea que no están seguros de que usa su pc, no pasa nada, escriban <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">cat .bashrc</span> si esto muestra algo su terminal usa <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">bash</span> , en mi caso al hacerlo recibo el contenido del archivo y al correr <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">cat .zshrc</span> recibo esto: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">cat: .zshrc: No such file or directory</span> lo que significa que mi terminal usa <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">bash</span> en lugar de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">zsh</span>.
+3. Now it's set up, but we don't want to have to export this every time, so we add it to a file that is executed when opening the terminal, in this case, our terminal runs <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">bash</span> so the code is sent to the <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">.bashrc</span> file, if our terminal runs <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">zsh</span> we must send the code to <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">.zshrc</span>, now you may wonder if you are not sure which one your PC uses, no problem, type <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">cat .bashrc</span> if this shows something, your terminal uses <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">bash</span>, in my case when I do it, I receive the contents of the file, and when running <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">cat .zshrc</span> I receive this: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">cat: .zshrc: No such file or directory</span> which means my terminal uses <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">bash</span> instead of <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">zsh</span>.
 
 ### Windows
 
-Siendoles sinceros lo anterior que funciona en linux lo hice todo desde windows, por lo que pueden estar seguros que acá también podemos usar Avalanche CLI, pero en lugar de usar una terminal cualquiera debemos ir a la <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">microsoft store</span> y descargar <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">Ubuntu</span> esto hará una partición pequeña que nos dará un espacio de trabajo con la distribución <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">Ubuntu</span> de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">Linux</span> con lo que volvemos al paso anterior, y escribiendo en nuestro buscador la palabra <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">Ubuntu</span> nos mostrara una terminal, al abrirla, estaremos justo por empezar el paso <b>1</b> del ejemplo de Linux, por lo que sobra decir que lo que sigue es seguir el paso 1, 2 y 3 descritos para <b>Linux</b>.
+Being honest with you, everything above that works on Linux, I did it all from Windows, so you can be sure that here we can also use Avalanche CLI. However, instead of using any terminal, we need to go to the <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">microsoft store</span> and download <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">Ubuntu.</span> This will create a small partition that will give us a workspace with the <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">Ubuntu</span> distribution of <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">Linux</span> which brings us back to the previous step. By typing the word <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">Ubuntu</span> in our search bar, it will show us a terminal. When we open it, we'll be right about to start step <b>1</b> of the Linux example, so needless to say, what follows is to follow steps 1, 2, and 3 described for <b>Linux</b>.
 
 ### MAC
 
-Ver academy oficial de Avalanche en la sección <a href="https://academy.avax.network/path-player?courseid=subnet-architecture&unit=subnet-architecture_6466810da734bUnit" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">Install Avalanche CLI en MacOs</a>.
+Go to the official Avalanche academy in the section <a href="https://academy.avax.network/path-player?courseid=subnet-architecture&unit=subnet-architecture_6466810da734bUnit" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">Install Avalanche CLI en MacOs</a>.
 
-## Creación de subnet
+## Subnet Creation
 
-Empecemos creando una subnet básica, para esto debemos tener nuestra terminal abierta (Recuerden los usuarios de windows terner abierta la de <b>Ubuntu</b>), ahora corramos el siguiente comando: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet create testNet</span>, pero ¿Qué significa esto?
+Let's start by creating a basic subnet. For this, we need to have our terminal open (Windows users, remember to have the <b>Ubuntu</b> terminal open), now, let's execute the following command: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet create testNet</span>, but what does this mean?
 
-1. <b>avalanche</b>: le estamos diciendo a la terminal que queremos usar el CLI
-   de Avalanche, es como decir python, python3, node, npx, etc., pero en este
-   caso es Avalance CLI a quien queremos usar.
+1. <b>avalanche</b>: We're instructing the terminal to utilize the Avalanche
+   CLI. It's akin to python, python3, node, npx, etc., but in this case, we're
+   opting for Avalanche CLI.
 
-2. <b>subnet</b>: le estamos especificando que tipo de proceso queremos llamar,
-   en este caso una subnet (más adelante veremos otro).
+2. <b>subnet</b>: We're specifying the type of process we want to invoke, in
+   this instance, a subnet (we'll explore others later).
 
-3. <b>create</b>: le estamos diciendo que llame el método create del proceso
-   relacionado a las subnets, es como si <b>subnet</b> fuera una clase y
-   llamamos
-   <b>subnet.create</b>.
+3. <b>create</b>: We're instructing it to call the create method of the process
+   associated with subnets. It's akin to treating <b>subnet</b> as a class and
+   invoking <b>subnet.create</b>.
 
-4. <b>testNet</b>: Es el nombre arbitrario que le decidí dar a esa subnet, pude
-   haber escogido pikachu, pikaNet, rangerRojo, rickPrimeNet o el nombre que
-   quisiera, pero escogí testNet, en este caso si seguimos la analogía anterior
-   es como si llamaramos lo siguiente <b>subnet.create("testNet")</b>.
+4. <b>testNet</b>: This is the arbitrary name I chose for this subnet. I could
+   have selected pikachu, pikaNet, redRanger, rickPrimeNet, or any other name,
+   but I settled on testNet. In this scenario, following the earlier analogy,
+   it's like calling <b>subnet.create("testNet")</b>.
 
-Ahora que entendemos esta sentencia empecemos:
+Now that we grasp this statement, let's begin.
 
--   <b>Selección de la Maquina Virtual</b>: Una vez ejecutada en la linea de
-    comandos la sentencia <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
+-   <b>Virtual Machine Selection</b>: Once the command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
         avalanche subnet create testNet
-    </span>, nos pondrán a elegir entre dos cosas, una Subnet que utiliza la maquina
-    virtual de Ethereum (<b>Subnet-EVM</b>), la cual nos permite programar Contratos
-    inteligentes en Solidity y usar direcciones 0x… con toda la facilidad y naturalidad
-    del mundo; o una maquina virtual personalizada (<b>Custom</b>), una maquina virtual
-    personalizada nos permitirá usar otro sistema operativo como Rust para nuestro
-    código, y requerirá que ingresemos la ruta de la configuración del bloque genesis.
-    Ya que abordaremos el camino sencillo, seleccionaremos en esta ocasión una <b>
-        Subnet-EVM.
-    </b>
+    </span> has been executed on the command line, we'll be prompted to choose
+    between two options: a Subnet that utilizes the Ethereum virtual machine (
+    <b>Subnet-EVM</b>), allowing us to program smart contracts in Solidity and
+    use addresses like 0x... with ease and familiarity; or a custom virtual
+    machine (<b>Custom</b>), which enables us to use another operating system
+    like Rust for our code and requires us to input the path to the genesis
+    block configuration. Since we're taking the straightforward route, we'll
+    select <b>Subnet-EVM</b> this time.
 
--   <b>Selección del identificador de la cadena para la subnet</b>: El concepto
-    <b>chainId</b> puede resultar un poco confuso al incio, pero no es nada del
-    otro mundo, es solo como nuestro número de identificación, cada blockchain
-    tiene uno y es importante no repetir, ya que sería feo que alguién comparta
-    tu mismo número de identificación también es feo y generar confusión
-    compartir el mismo número de identificación en el universo de las
-    blockchain, para estar seguro de no repetir, buscamos en el registro unico
-    de documentos de identificación para blockchains (Es broma me invente ese
-    nombre) el cual es y https://chainlist.org le decimos que queremos incluir
-    documentos de adultos y de menores de edad (Es decir incluir Testnets), y
-    hacemos la busqueda, escribiendo un número por ejemplo hoy es 27 de enero de
-    2024, por lo que probare el número <b>270124</b> y ¡Oh sorpresa! Está
-    disponible, por lo que se que puedo usar <b>270124</b> como un chainId ya
-    que no colisionará con otro documento de identificación de otra blockchain,
-    así como este puedo probar cualquier otro número y la página de
-    https://chainlist.org me dará la disponibilidad de este.
+-   <b>Chain Identifier Selection for the Subnet</b>: The concept of <b>
+        chainId
+    </b> might seem a bit confusing at first, but it's nothing too complicated;
+    it's just like our identification number. Every blockchain has one, and it's
+    important not to duplicate it, as it would be awkward if someone shared your
+    same identification number. Also, sharing the same identification number in
+    the blockchain universe can cause confusion. To ensure we don't repeat, we
+    consult the unique registry of blockchain identification documents (I made
+    up that name) at https://chainlist.org. We specify that we want to include
+    documents for both adults and minors (meaning including Testnets), and then
+    we perform the search. For example, if today is January 27, 2024, I'll try
+    the number <b>270124</b>, and voila! It's available. Now, I know I can use <b>
+        270124
+    </b> as a chainId since it won't collide with another blockchain identification
+    document. Just like this, I can try any other number, and the https://chainlist.org
+    page will provide me with its availability.
 
--   <b>Selección de un simbolo para el token nativo:</b> Este atributo puede parecer
-    algo confuso pero pensemos en el token nativo como la moneda de un país, en mi
-    caso escribo esto desde Colombia, acá nuestro token nativo es el <b>
-        Peso Colombiano,
-    </b> pero este tiene un seudonimo para identificarlo más rápido y es de tres
-    letras, el <b>COP</b>, así mismo las blockchain y subnet pueden tener un
-    nombre largo como Bitcoin y tener un simbolo llamado (BTC), Avax (AVAX),
-    Ether (ETH), Matic (MATIC), etc. Por lo que siendo el momento de seleccionar
-    un simbolo, escogere <b>TNET</b> el cual considero es un acronimo de
-    testNet, puedo usar cualquier otra cosa como <b>TNT,</b> <b>MYT,</b> <b>
-        ASD,
-    </b> ocualquier cosa que no tenga nada que ver con el proyecto, pero por
-    coherencia usaré <b>TNET.</b>
+-   <b>Selection of a Symbol for the Native Token:</b> This attribute might seem
+    a bit confusing, but let's think of the native token like a country's currency.
+    In my case, I'm writing this from Colombia, where our native token is the <b>
+        Colombian Peso,
+    </b> but it has an alias for quicker identification, which is three letters long,
+    the <b>COP</b>. Similarly, blockchains and subnets can have a long name like
+    Bitcoin and have an associated symbol (BTC), Avax (AVAX), Ether (ETH), Matic
+    (MATIC), etc. So, when it's time to select a symbol, I'll choose <b>TNET</b>,
+    which I consider to be an acronym for testNet. I could use anything else like <b>
+        TNT,
+    </b> <b>MYT,</b> <b>ASD,</b> or anything unrelated to the project, but for consistency,
+    I'll go with <b>TNET.</b>
 
--   <b>Selección de la versión de la maquina virtual de Ethereum a utilizar:</b> Ya
-    que seleccionamos que usaríamos la maquina virtual de Ethereum como maquina virtual
-    de procesamiento de información, esta maquina ha sufrido modificaciones y mejoras
-    con el pasar del tiempo, por lo que existen varias versiones, es recomendable
-    tratar de usar siempre la ultima ya que suele ser la que tiene más parches de
-    seguridad blindandonos de casos de hackeos comunes, por lo que recomiendo seleccionar
-    esta opción que aparece como <b>Use latest version.</b>
+-   <b>Selection of the Ethereum Virtual Machine Version to Use:</b> Since we've
+    decided to use the Ethereum virtual machine as the processing engine, this machine
+    has undergone modifications and improvements over time, resulting in several
+    versions. It's advisable to try to always use the latest version as it usually
+    has more security patches to protect against common hacking incidents. Therefore,
+    I recommend selecting the option labeled <b>Use latest version.</b>
 
--   <b>Configuración de fees:</b> Este apartado puede verse un poco confuso el hecho
-    de hablar fees y tener que seleccionar capacidad del disco, pero están de la
-    mano, ya que, entre menor sea la capacidad del disco, menos información podrá
-    procesar, por lo que resultará más costoso procesarla, pero si las maquinas virtuales
-    que ejecutarán la subnet, tienen una capacidad mayor, estas podrán ejecutar más
-    transacciones a un menor costo, ya que el hardware es más potente para esto,
-    también podemos personalizar estos fees, por el momento ya que es nuestra primer
-    subnet, les recomiendo seleccionar un disco de alta capacidad que les permita
-    procesar 5mil unidades de gas por segundo (<b>
-        High disk use / High Throughput 5 mil gas/s
-    </b>)
+-   <b>Fee Configuration:</b> This section might seem a bit confusing due to discussing
+    fees and having to select disk capacity, but they go hand in hand. The lower
+    the disk capacity, the less information it can process, making it more costly
+    to process. However, if the virtual machines running the subnet have higher capacity,
+    they can execute more transactions at a lower cost since the hardware is more
+    powerful for this purpose. We can also customize these fees. Since this is our
+    first subnet, I recommend selecting a high-capacity disk that allows processing
+    of 5,000 gas units per second (<b>
+        High disk use / High Throughput 5 thousand gas/s
+    </b>).
 
--   <b>Distribución de los fondos:</b> Este paso es muy importante, ya que escogimos
-    una configuración tradicional en la cual debemos pagar gas para procesar transacciones,
-    y esto significa que tenemos que tener tokens de <b>TNET</b> para poder pagar
-    esos fees, pero como el token <b>TNET</b> apenas se va a crear, no tenemos aún
-    suministros de este en nuestras billeteras, Avalanche CLI nos da dos opciones:
-    o entregamos 1 millón de tokens a una dirección default, de la cual luego recibiremos
-    la dirección privada para importarla en nuestra wallet o pasamos una o más direcciones
-    publicas, las cuales estarán configuradas desde el bloque genesis como las wallets
-    con balances para poder pagar gas, en este caso seleccionaré la segunda opción
-    ya que quiero usar mi cuenta de confianza la cual uso para pruebas, copio esta
-    dirección 0x… de core y selecciono la opción de <b>
+-   <b>Funds Distribution:</b> This step is crucial because we've chosen a traditional
+    configuration where we need to pay gas to process transactions. This means we
+    need to have tokens of <b>TNET</b> to pay those fees. However, since the <b>
+        TNET
+    </b> token is just about to be created, we don't have any supplies of it in our
+    wallets yet. Avalanche CLI gives us two options: either we provide 1 million
+    tokens to a default address, from which we'll later receive the private key to
+    import into our wallet, or we pass one or more public addresses, which will be
+    configured from the genesis block as wallets with balances to pay gas. In this
+    case, I'll choose the second option since I want to use my trusted account that
+    I use for testing. I'll copy this address 0x... from core and select the option <b>
         Customize your airdrop,
-    </b> esto me pedirá que ingrese la dirección 0x… que recibirá los tokens (<b>
-        Address to airdrop to
-    </b>), por lo que pego la dirección 0x… que obtuve de core, seguido de la tecla
-    enter. Luego de esto me preguntará la cantidad <b>
-        Amount to airdrop (in AVAX units),
-    </b> eso de <b>en unidades de AVAX</b> es porque cada token tiene decimales de
-    una manera ingeniosa, ya que no se pueden usar decimales (0.1) por ejemplo en
-    Solidity, se define un estándar de decimales y en realidad la unidad está dada
-    por cifras de muchos ceros, por ejemplo un AVAX no es 1 token, es 1 x 10^9 tokens,
-    por lo que el decir <b>in AVAX units</b> hace referencia a que mencione cuantos
-    tokens quiero recibir considerando que cada token se multiplicará por 1 x 10^9,
-    entonces si escribo 1000000 (1 millón), a nivel de código recibiré 1 millón por
-    10 a la 9, pero visualmente veré 1 millón unicamente, y el gas costará fracciones
-    de 1, como 0.001 TNET, pero sabemos ya que esta fracción es fictisia ya que 0.001
-    TNET son 1 x 10^6 tokens, ya que son menos de la unidad se ven como decimales,
-    pero internamente son más de 1, esto es muy importante al momento de programar
-    contratos inteligentes que involucren cryptoactivos como el token nativo o un
-    ERC20, ya que será solo mi cuenta, le diré que No a la pregunta de si me gustaría
-    repartir más tokens (<b>Would you like to airdrop more tokens?</b>)
+    </b> this will prompt me to enter the address 0x... that will receive the tokens
+    (<b>Address to airdrop to</b>). So, I'll paste the address 0x... that I obtained
+    from core, followed by hitting the enter key. After this, it will ask me for
+    the amount <b>Amount to airdrop (in AVAX units),</b> that's because each token
+    has decimals in a clever way, since decimals (0.1) can't be used, for example,
+    in Solidity. A standard of decimals is defined, and in reality, the unit is given
+    by many zeros. For example, an AVAX is not 1 token, it's 1 x 10^9 tokens. So
+    saying <b>in AVAX units</b> refers to mentioning how many tokens I want to receive
+    considering that each token will be multiplied by 1 x 10^9. Then, if I write
+    1000000 (1 million), in code, I'll receive 1 million times 10 to the power of
+    9, but visually I'll only see 1 million, and the gas will cost fractions of 1,
+    like 0.001 TNET, but we already know that this fraction is fictitious since 0.001
+    TNET is 1 x 10^6 tokens, as they are less than the unit, they appear as decimals,
+    but internally they are more than 1. This is very important when programming
+    smart contracts involving crypto assets like the native token or an ERC20 token
+    because it will be just my account. I'll say No to the question of whether I
+    would like to airdrop more tokens (<b>
+        Would you like to airdrop more tokens?
+    </b>).
 
--   <b>
-        Me gustaría agregar un precompilado personalizado para modificar la
-        maquina virtual?:
-    </b> Este es un tema más avanzado que abordaremos en otro momento, por ahora
-    tratemos de entender lo que llevamos y terminar de configurar nuestra maquina
-    virtual, por lo que seleccionaremos que No a la pregunta de <b>
+-   <b>Would you like to add a custom precompile to modify the EVM?:</b> This is
+    a more advanced topic that we'll address at another time. For now, let's try
+    to understand what we've covered so far and finish configuring our virtual machine,
+    so we'll select No to the question of <b>
         Advanced: Would you like to add a custom precompile to modify the EVM?
     </b>
 
--   <b>Mensaje de éxito 😎:</b> Si todo se configuró de manera correcta deberíamos
-    ver el siguiente mensaje: <b>Successfully created subnet configuration</b>
+-   <b>Success Message 😎:</b> If everything was configured correctly, we should
+    see the following message: <b>Successfully created subnet configuration</b>
 
-## Ver mis subnets
+## Viewing My Subnets
 
--   Si queremos ver la lista de subnets que tenemos en nuestro dispositivo creadas corremos el comando <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet list</span> que siguiendo la analogía que planteamos al principio es llamar desde el Avalanche CLI la función <b>subnet.list()</b>, la cual no requiere de parámetros de entrada; llamar eso nos retornará una tabla con la información del nombre de la subnet, el chainId, el id de la maquina virtual (VMID), y otra información como el tipo de maquina virtual y la versión de esta, así como si viene de algún repositorio o se uso la que está por defecto.
+-   If we want to see the list of subnets we have created on our device, we run the command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet list</span>, which following the analogy we laid out at the beginning is like calling the <b>subnet.list()</b> function from Avalanche CLI, which does not require any input parameters. Calling this will return a table with information such as the subnet name, the chainId, the virtual machine ID (VMID), and other details like the type of virtual machine and its version, as well as whether it comes from a repository or the default one was used.
 
--   Si queremos ver información detallada de una subnet en especifico, ejecutamos el comando <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet describe testNet</span> , en este caso terminando en el nombre de nuestra subnet, en mi caso la llame testNet, siguiendo la analogía es el equivalente a <b>subnet.describe("testNet"),</b> ya que esta vez si recibe un atributo, el cual es el nombre de la subnet de la cual queremos información, esto nos dará <b>detalles,</b> información de la <b>configuración del gas,</b> de los <b>airdrop</b> (dandonos la cantidad y la dirección que los recibe), así como de los precompilados que en este caso observo <b>No precompiles set</b> porque no configuré ninguno.
+-   If we want to see detailed information about a specific subnet, we execute the command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet describe testNet</span>, in this case ending with the name of our subnet, in my case, I named it testNet. Following the analogy, it's equivalent to <b>subnet.describe("testNet"),</b> as this time it does receive an attribute, which is the name of the subnet we want information about. This will give us <b>details, gas configuration</b> information, <b>airdrops</b> (showing the amount and the receiving address), as well as precompiles, in this case, I see <b>No precompiles set</b> because I didn't configure any.
 
-## Levantar un nodo local (antes de desplegar)
+## Setting Up a Local Node (Before Deployment)
 
-Este paso a veces lo omitimos, pero es más saludable realizarlo para no tener errores en el futuro, por lo que en este punto vamos a correr el comando <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network start</span> para levantar cinco nodos en nuestro computador de manera local, y ahora corramos el comando <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network status</span> para ver el estado de estos nodos que acabamos de levantar, deberiamos ver el identificador de cada nodo así como el endpoint utilizado para exponerlos.
+This step is sometimes overlooked, but it's healthier to perform it to avoid errors in the future. So at this point, we're going to run the command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network start</span> to start five nodes on our computer locally. Now, let's run the command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network status</span> to see the status of these nodes we just started. We should see the identifier of each node as well as the endpoint used to expose them.
 
-Nota: Acá la clase ya no es subnet sino network 👀
+Note: Here the class is no longer subnet but network 👀
 
-## Despliegue de Subnet
+## Subnet Deployment
 
-En este punto ya tenemos configurada una Subnet y los nodos expuestos, todo el camino está preparado para empezar el lanzamiento del cohete (despliegue de nuestra subnet), para realizar esto último ejecutaremos el comando <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet deploy testNet</span> (subnet.deploy("testnet"))
+At this point, we have configured a Subnet and exposed the nodes, everything is set up to start the rocket launch (deployment of our subnet). To do this, we'll execute the command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet deploy testNet</span> (subnet.deploy("testnet"))
 
--   <b>Selección de una red para la operación de despliegue:</b> Acá es como seleccionar
-    un ambiente, para pruebas locales que es el ejercicio de esta sección, seleccionaremos
-    la red local (Local Network)
+-   <b>Selection of a network for deployment operation:</b> Here, it's like selecting
+    an environment. For local testing, which is the purpose of this section, we'll
+    select the local network.
 
--   Recolección de datos importantes: Una vez la subnet es desplegada, nos arrojará un montón de información, pero ¿Qué es realmente importante de todo esto?
+-   Gathering Important Data: Once the subnet is deployed, it will throw a bunch of information at us, but what's really important from all of this?
 
-    -   <b>RPC URL:</b> Punto de conexión remota, recordemos que la blockchain no
-        es una página web, es un estándar de almacenamiento y comunicación criptografico
-        con gamificación entre dispositivos; es decir, un grupo de dispositivos se
-        ponen de acuerdo, en como agregar información y comunicarla entre si, recibiendo
-        un beneficio por hacerlo de la manera esperada, estos dispositivos son nuestra
-        puerta de entrada para leer información o agregarla, por lo que debemos enviarle
-        a ellos nuestra solicitud de escritura o lectura, solo los nodos autorizados
-        pueden interactuar, un <b>RPC</b> es como un API al que le puedo escribir
-        para usar arquitectura web2 con información del mundo web3.
+    -   <b>RPC URL:</b> Remote Procedure Call URL, remember that the blockchain is
+        not a webpage, it's a cryptographic storage and communication standard with
+        gamification among devices; that is, a group of devices agree on how to add
+        information and communicate it to each other, receiving a benefit for doing
+        so in the expected manner. These devices are our gateway to reading or adding
+        information, so we must send our read or write request to them. Only authorized
+        nodes can interact. An <b>RPC</b> is like an API that we can write to, using
+        web2 architecture with web3 world information.
 
-    -   <b>Funded address:</b> La dirección con los fondos es nuestra dirección de
-        prueba, la verificamos.
+    -   <b>Funded address:</b> The address with the funds is our test address, we
+        verify it.
 
-    -   <b>Network name:</b> verificamos que diga <b>testNet</b> o el nombre que
-        le dimos
+    -   <b>Network name:</b> We verify that it says <b>testNet</b> or the name we
+        gave it.
 
-    -   <b>Chain ID:</b> Verificamos que sea el que escogimos, en mi caso es el <b>
+    -   <b>Chain ID:</b> We verify that it is the one we chose, in my case it's <b>
             270124
         </b>
 
-    -   <b>Currency Symbol:</b> Verificamos que sea nuestro acrónimo <b>TNET</b>
+    -   <b>Currency Symbol:</b> We verify that it's our acronym <b>TNET</b>
 
-## Importación de la Subnet en core
+## Importing the Subnet into Core
 
-Para importar una blockchain, en este caso una subnet, debemos tener claro los últimos puntos del paso anterior, como el RPC, el chainId, etc., con estos a la mano continuaremos con lo siguiente:
+To import a blockchain, in this case a subnet, we must be clear about the final points from the previous step, such as the RPC, the chainId, etc., with these in hand, we'll continue with the following:
 
-1. Abrimos la billetera core como una extensión del navegador o en nuestro celular
+1. Open the core wallet as a browser extension or on our mobile device.
 
-2. Le damos clic a la lista desplegable que está en la parte superior derecha, la que tiene el logo de Avalanche
+2. Click on the dropdown list at the top right, which has the Avalanche logo.
 
     <img src="/images/core_1.png" alt="core 1" style="max-width: 90%" />
 
-3. Le damos en la última opción que tiene un icono de una tuerca, es decir en Gestionar Redes.
+3. Click on the last option with an icon of a gear, which is Manage Networks.
 
-4. Le damos en el icono de + que está a la derecha.
+4. Click on the + icon on the right.
 
     <img src="/images/core_2.png" alt="core 2" style="max-width: 90%" />
 
-5. Una vez aquí nos pedirá:
+5. Once here, it will ask for:
 
-    a. <b>URL de RPC de la red:</b> http://127.0.0.1:9650/ext/bc/27J…wEH/rpc (Nuesto RPC).
-    b. <b>Nombre de la red:</b> testNet.
-    c. <b>ID de la cadena:</b> 270124.
-    d. <b>Símbolo del Token de la Red:</b> TNET
-    e. <b>Network Token Name:</b> TestNet coin (Nombre que verán los demás del token)
+    a. <b>RPC URL:</b> http://127.0.0.1:9650/ext/bc/27J…wEH/rpc (Our RPC).
 
-    Lo demás lo dejaremos vacío por ahora, y le damos clic en <b>Guardar.</b>
+    b. <b>Network Name:</b> testNet.
 
-6. Una vez agregada la red le damos clic y deberíamos ver en el apartado principal de la wallet algo como esto:
+    c. <b>Chain ID:</b> 270124.
+
+    d. <b>Network Token Symbol:</b> TNET
+
+    e. <b>Network Token Name:</b> TestNet coin (Name others will see for the token)
+
+    Leave the rest blank for now, then click <b>Save.</b>
+
+6. Once the network is added, click on it, and in the main section of the wallet, we should see something like this:
 
     <img src="/images/core_3.png" alt="core 3" style="max-width: 90%" />
 
-    Si hemos llegado hasta aquí, felicidades, ya tenemos nuestra subnet en nuestra wallet core, ya podemos usarla para desplegar contratos inteligentes en <a href="https://remix.ethereum.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">Remix</a>.
+    If we've reached this point, congratulations! We now have our subnet in our core wallet, and we can use it to deploy smart contracts in <a href="https://remix.ethereum.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">Remix</a>.
 
-## Importación de la Subnet en metamask
+## Importing the Subnet into Metamask
 
-Para importar una blockchain, en este caso una subnet, debemos tener claro los últimos puntos del paso anterior, como el RPC, el chainId, etc., con estos a la mano continuaremos con lo siguiente:
+To import a blockchain, in this case, a subnet, we must be clear about the final points from the previous step, such as the RPC, the chainId, etc. With these in hand, we'll continue with the following:
 
-1. Abrimos la billetera metamask como una extensión del navegador o en nuestro celular.
+1. Open the Metamask wallet as a browser extension or on our mobile device.
 
-2. Le damos clic a la lista desplegable que está en la parte superior izquierda en nuestra extensión web o en la parte superior en el centro en la aplicación mobile.
+2. Click on the dropdown list at the top left in our web extension or at the top center in the mobile application.
 
     <img src="/images/metamask_1.png" alt="metamask 1" style="max-width: 90%" />
 
-3. Una vez el menú abierto le damos en agregar red
+3. Once the menu is open, click on Add Network.
 
     <img src="/images/metamask_2.png" alt="metamask 2" style="max-width: 90%" />
 
-4. Esto nos abrira una nueva pestaña, en esta le damos en agregar una red manualmente (<b>Add a network manually</b>)
+4. This will open a new tab; here, click on <b>Add a network manually</b>.
 
     <img src="/images/metamask_3.png" alt="metamask 3" style="max-width: 90%" />
 
-5. Esta nos pedira lo siguiente:
+5. It will ask for the following:
 
-    a. <b>Nombre de la red:</b> testNet
+    a. <b>Network Name:</b> testNet
 
-    b. <b>Nueva dirección URL de RPC:</b> http://127.0.0.1:9650/ext/bc/27J…wEH/rpc (Nuesto RPC)
+    b. <b>New RPC URL:</b> http://127.0.0.1:9650/ext/bc/27J…wEH/rpc (Our RPC)
 
-    c. <b>Identificador de cadena:</b> 270124
+    c. <b>Chain ID:</b> 270124
 
-    d. <b>Símbolo de moneda:</b> TNET
+    d. <b>Currency Symbol:</b> TNET
 
-    y finalizamos dandole clic en <b>Guardar</b>, seguido vemos el siguiente mensaje:
+    Then, click on <b>Save</b>, followed by seeing the following message:
 
     <img src="/images/metamask_4.png" alt="metamask 4" style="max-width: 90%" />
 
-6. Le damos en Switch to testNet, a lo que vemos lo siguiente
+6. Click on Switch to testNet, and you'll see the following:
 
     <img src="/images/metamask_5.png" alt="metamask 5" style="max-width: 90%" />
 
-En este caso no tengo tokens porque la dirección es diferente a la que recibí los airdrops, pero puedo enviar tokens desde mi cuenta en core para poder usar metamask o haber agregado esta dirección como la receptora al momento de crear la subnet, en cualquier caso ya tengo mi subnet agregada a mis wallets de core y metamask.
+In this case, I don't have tokens because the address is different from the one I received airdrops on, but I can send tokens from my core account to use Metamask, or I could have added this address as the recipient when creating the subnet. In any case, I now have my subnet added to my core and Metamask wallets.
 
-## Detener los nodos que están corriendo
+## Stopping the Running Nodes
 
-A veces cerramos la terminal y pensamos que ya cerramos todo, pero el proceso sigue ejecutando los nodos en segundo plano, para detenerlos podemos observar que se están ejecutando con <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network status</span> y posteriormente detenerlos con <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network stop</span>, o detenerlos desde el principio, como gusten.
+Sometimes we close the terminal and think we've closed everything, but the process continues to run the nodes in the background. To stop them, we can check if they are running with <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network status</span> and then stop them with <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network stop</span>, or stop them from the beginning, as you prefer.
 
-## Volver a correr los nodos y las subnets anteriormente desplegadas
+## Restarting the Previously Deployed Nodes and Subnets
 
-Para correr de nuevo los nodos detenidos ejecutamos el comando <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network start</span>
+To restart the stopped nodes, we execute the command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network start</span>.
 
-## Eliminar las subnets desplegadas de los nodos
+## Deleting Deployed Subnets from the Nodes
 
-Para poder eliminar ese estado de las subnets de los nodos debemos correr el comando <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network clean</span>, de esta manera se limpian los despliegues de los nodos locales
+To remove the state of the subnets from the nodes, we must run the command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche network clean</span>, thereby cleaning the local node deployments.
 
-## Eliminar la subnet
+## Deleting the Subnet
 
-Si queremos eliminar de manera definitiva la configuración que habíamos realizado de nuestra subnet, ejecutamos el siguiente comando <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet delete testNet</span> dando por terminado la existencia de nuestra subnet <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">testNet</span> en nuestro dispositivo 😢
+If we want to permanently delete the configuration we made for our subnet, we execute the following command <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">avalanche subnet delete testNet</span>, ending the existence of our subnet <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">testNet</span> on our device 😢
 
-Ahora bien, hay ocasiones en las que queremos acceder a activos digitales o información que está en otra subnet u otra blockchain como la C - Chain, para por ejemplo aprovechar la propiedad de un NFT en un proyecto que está en main net y darle un beneficio en nuestra nueva subnet, y para este tipo de casos el equipo de Avalanche está desarrollando una tecnología, la cual tenemos en Beta y podemos empezar a probar desde ya, esta tecnología nos permite comunicarnos entre la subnet Dispatch (D), Echo (E) y la C-Chain; esta tecnología se llama Teleporter.
+Now, there are occasions where we want to access digital assets or information that are on another subnet or another blockchain like the C - Chain. For example, to leverage the properties of an NFT in a project on the main net and provide benefits in our new subnet. For such cases, the Avalanche team is developing a technology, which we have in Beta and can start testing right away. This technology allows us to communicate between the Dispatch (D), Echo (E) subnets, and the C-Chain. This technology is called Teleporter.

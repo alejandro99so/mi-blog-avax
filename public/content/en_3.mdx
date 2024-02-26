@@ -1,10 +1,10 @@
 # Teleporter
 
-Esta tecnología nos permite comunicarnos entre una Blockchain y otra, en este caso entre una subnet y otra, por ahora está disponible entre las subnets de Dispatch (D), Echo (E) y C-Chain; si queremos usar estas redes es muy importante que tengamos los tokens nativos, los cuales los podemos solicitar del faucet oficial de Avalanche haciendo clic <a href="https://core.app/tools/testnet-faucet/?subnet=dispatch&token=dispatch" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">aquí para Dispatch</a>, <a href="https://core.app/tools/testnet-faucet/?subnet=echo&token=echo" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">aquí para Echo</a>, y <a href="https://core.app/tools/testnet-faucet/?subnet=c&token=c" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">aquí para C-Chain</a>; adicional a los token nativos, es importante que tengamos Tokens de TP, los cuales son usados para poder usar este servicio, los podemos encontrar en <a href="https://ohmywarp.com/mint" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">https://ohmywarp.com/mint</a>, por el momento solo podemos mintear TP para C-Chain, pero podemos hacer luego un bridge y mandar TP a las otras dos redes.
+This technology allows us to communicate between one Blockchain and another, in this case between one subnet and another. For now, it's available between the Dispatch (D), Echo (E), and C-Chain subnets. If we want to use these networks, it's crucial to have the native tokens. We can request them from the official Avalanche faucet by clicking <a href="https://core.app/tools/testnet-faucet/?subnet=dispatch&token=dispatch" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">here for Dispatch</a>, <a href="https://core.app/tools/testnet-faucet/?subnet=echo&token=echo" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">here for Echo</a>, and <a href="https://core.app/tools/testnet-faucet/?subnet=c&token=c" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">here for C-Chain</a>. In addition to the native tokens, it's important to have TP Tokens, which are used to access this service. We can find them at <a href="https://ohmywarp.com/mint" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">https://ohmywarp.com/mint</a>. At the moment, we can only mint TP for C-Chain, but we can later bridge them and send TP to the other two networks.
 
-Una vez tengamos tokens en las respectivas redes podemos plantearnos la pregunta ¿Cómo mandamos información de un contrato en la red de origen a un contrato en la red de destino?
+Once we have tokens in the respective networks, we can ask ourselves the question: How do we send information from a contract on the source network to a contract on the destination network?
 
-Para responder a esta pregunta debemos entender que significa mandar información de una red a otra, imaginemos lo siguiente
+To answer this question, we must understand what it means to send information from one network to another. Let's imagine the following scenario:
 
 <div style="display:flex; flex-direction:row; justify-content: center; align-items:center;">
     <div style="max-width: 45%;width: 300px; margin: 0.5rem; display:flex; flex-direction:column; justify-content: center; align-items:center;">
@@ -13,7 +13,7 @@ Para responder a esta pregunta debemos entender que significa mandar informació
             alt="Teleporter 1"
             style="width: 100%"
         />
-        <div>Red de origen</div>
+        <div>Source network</div>
     </div>
     <div style="max-width: 45%;width: 300px; margin: 0.5rem; display:flex; flex-direction:column; justify-content: center; align-items:center;">
         <img
@@ -21,11 +21,11 @@ Para responder a esta pregunta debemos entender que significa mandar informació
             alt="Teleporter 2"
             style="width: 100%"
         />
-        <div>Red de destino</div>
+        <div>Destination network</div>
     </div>
 </div>
 
-Dos Subnet diferentes que están técnicamente aisladas, cada una con información acerca del estado de ellas mismas y sin información del estado de la otra, en este caso debe de haber un ente afuera de las subnets que esté escuchando información de algún lado y procesando dicha información, enviandola de la subnet de origen a la subnet de de destino cuando alguna condición se cumpla.
+Two different subnets that are technically isolated, each with information about their own state and without information about the state of the other, in this case, there must be an entity outside of the subnets listening to information from somewhere and processing that information, sending it from the source subnet to the destination subnet when a certain condition is met.
 
 <div style="display:flex; flex-direction:row; justify-content: center; align-items:center;">
     <img
@@ -35,45 +35,45 @@ Dos Subnet diferentes que están técnicamente aisladas, cada una con informaci�
     />
 </div>
 
-Esa entidad afuera de la blockchain se llama <b>Relayer</b> y se encarga de escuchar la información proveniente de un contrato especial en la red de origen, validar la veracidad de este y de los validadores en dicha red y enviar ese mensaje en la red de destino, esto implica algo más complejo a nivel técnico pero <b>Teleporter</b> nos permite simplificarlo a eso, por lo que el usar esta tecnología nos facilita mucho el proceso de mandar información entre dos subnets.
+That entity outside of the blockchain is called a <b>Relayer</b>, and it's responsible for listening to information coming from a special contract on the source network, validating its truthfulness and that of the validators on that network, and then sending that message to the destination network. This involves something more technically complex, but <b>Teleporter</b> allows us to simplify it to that extent, making the process of sending information between two subnets much easier.
 
-Ahora veamos a nivel técnico que debemos saber para poder mandar estos mensajes y recibirlos de manera correcta.
+Now let's see technically what we need to know to be able to send these messages and receive them correctly.
 
-## Contratos de teleporter
+## Teleporter Contracts
 
-Para empezar debemos entender que en este proceso de enviar y recibir información debemos hacer uso de cuatro contratos que podemos encontrar en repositorio oficial de <a href="https://github.com/ava-labs/teleporter/tree/main/contracts/src/Teleporter" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ava-labs</a>, uno es el contrato de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, otro es el contrato de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterReceiver.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterReceiver.sol</a>, ambos son importantes en nuestro proceso de mandar y recibir información entre subnets, ya que usaremos algunas funciones e interfaces de ellos.
+To start, we need to understand that in this process of sending and receiving information, we must make use of four contracts that can be found in the official repository of <a href="https://github.com/ava-labs/teleporter/tree/main/contracts/src/Teleporter" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ava-labs</a>. One is the contract <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, another is the contract <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterReceiver.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterReceiver.sol</a>. Both are important in our process of sending and receiving information between subnets, as we will use some functions and interfaces from them.
 
-Lo otros dos se agregaron recientemente en una actualización llamada durango los cuales son <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a> y IWarpMessenger, el cual es referenciado en <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a> y son usados para manejar un versionado de los contratos de Teleporter en cada red.
+The other two were recently added in an update called Durango, which are <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a> and IWarpMessenger, referenced in <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a>, and they are used to handle versioning of the Teleporter contracts on each network.
 
-## Implementación de salida de información
+## Information Output Implementation
 
-Un contrato que enviará información de una subnet de origen a una subnet de destino debe importar el contrato de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, el cual le permitirá hacer uso de dicha interfaz, y por ende de sus métodos, entre los cuales hay uno llamado <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">sendCrossChainMessage</span>.
+A contract that will send information from a source subnet to a destination subnet must import the contract <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, which will allow it to make use of this interface, and thus its methods, among which there is one called <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">sendCrossChainMessage</span>.
 
-A su vez debe importar el contrato de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;"> TeleporterRegistry</a>, para tener acceso a la versión de Teleporter que usará.
+Furthermore, it must import the contract <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;"> TeleporterRegistry</a>, to have access to the version of Teleporter it will use.
 
-Si pensamos por un momento, estamos accediendo a un contrato y estamos llamando una función de este, lo que implica que debe de existir previamente un contrato desplegado en la subnet que estamos usando de origen de la información, y este debe tener literalmente el código que aparece en <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, esta es una de las razones por las cuales limitaremos las pruebas por el momento a las tres subnets mencionadas al principio de esta sección.
+If we think for a moment, we are accessing a contract and calling a function from it, which implies that a contract must exist previously deployed in the subnet we are using as the source of information, and this contract must literally have the code that appears in <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>. This is one of the reasons why we will limit testing for now to the three subnets mentioned at the beginning of this section.
 
-### Instancia
+### Instance
 
-Ahora con lo anterior en mente y siendo conscientes de que estamos haciendo, podemos decir que debemos definir una instancia del contrato de TeleporterRegistry en nuestro contrato para poder acceder a sus métodos y a las versiones de TeleporterMessenger, para eso debemos darle la dirección en la cual fue previamente desplegado dicho contrato, en nuestra subnet de origen, este contrato está desplegado en la dirección: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span> por lo que una instancia se resume a escribir la siguiente linea de código:
+Now, with the above in mind and being aware of what we are doing, we can say that we must define an instance of the TeleporterRegistry contract in our contract to access its methods and the versions of TeleporterMessenger. For that, we must give it the address at which said contract was previously deployed, in our source subnet, this contract is deployed at the address: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span> so an instance is summarized by writing the following line of code:
 
 <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
     TeleporterRegistry public immutable teleporterRegistry =
     TeleporterRegistry(0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b);
 </span>
 
-Es decir, una variable publica, inmutable de tipo <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">TeleporterRegistry</span> que viene de la importación del repositorio de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;"> TeleporterRegistry</a>, con el nombre de teleporterRegistry, la cual es igual a una instancia de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">TeleporterRegistry</span> a la dirección <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span>.
+In other words, a public, immutable variable of type <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">TeleporterRegistry</span> coming from the importation of the repository <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;"> TeleporterRegistry</a>, named teleporterRegistry, which is equal to an instance of <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">TeleporterRegistry</span> at the address <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span>.
 
-Ahora instanciamos nuestro teleporterMessenger así:
+Now we instantiate our teleporterMessenger like this:
 
 <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
     ITeleporterMessenger teleporterMessenger =
     teleporterRegistry.getLatestTeleporter();
 </span>
 
-### Envío de la información
+### Information Transmission
 
-Para enviar la información podemos simplemente llamar la instancia que tenemos en nuestro contrato del contrato de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, y llamar el método <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">sendCrossChainMessage</span>, al hacerlo debemos enviar lo siguiente:
+To send the information, we can simply call the instance we have in our contract of the contract <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, and call the method <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">sendCrossChainMessage</span>, when doing so we must send the following:
 
 ```
 TeleporterMessageInput({
@@ -89,50 +89,51 @@ TeleporterMessageInput({
 })
 ```
 
-1. <b>destinationBlockchainID</b> es el identificador de la subnet que recibirá el
-   mensaje dentro de la P - Chain de Avalanche, que en el caso de Dispatch es <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
+1. <b>destinationBlockchainID</b> is the identifier of the subnet that will receive
+   the message within the Avalanche P-Chain, which in the case of Dispatch is <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
        0x9f3be606497285d0ffbb5ac9ba24aa60346a9b1812479ed66cb329f394a4b1c7
-   </span> en el caso de C-Chain es <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
+   </span> in the case of C-Chain is <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
        0x7fc93d85c6d62c5b2ac0b519c87010ea5294012d1e407030d6acd0021cac10d5
-   </span> y en el caso de Echo es <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
+   </span> and in the case of Echo is <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
        0x1278d1be4b987e847be3465940eb5066c4604a7fbd6e086900823597d81af4c1
    </span>
 
-2. <b>destinationAddress</b> es la dirección del contrato que recibirá el mensaje
-   en la subnet de destino, es decir la dirección del contrato receptor.
-3. <b>feeInfo</b> tiene la información de la dirección del ERC20 y la cantidad que
-   se pagará como incentivo al Relayer por su labor, en los casos de prueba de las
-   redes mencionadas hay un Relayer público, por lo que no hay necesidad de enviar
-   un incentivo a estos, por eso definimos una dirección de 0 y un amount de 0 (Esto
-   será muy importante ya que juega un papel clave al ser el incentivo de los entes
-   que envian la información entre las subnets).
-4. <b>requiredGasLimit</b> es el limite de gas requerido para ejecutar la transacción,
-   si no se define el relayer puede enviar la transacción con menos gas y aún así
-   recibir la recompensa independientemnte de que se entregue o no el mensaje en
-   la subnet de llegada.
-5. <b>allowedRelayerAddresses</b> es una lista blanca de direcciones que pueden servir
-   de Relayers para mandar información de nuestra red a la red de destino, si está
-   vacía como en nuestro ejemplo indica que cualquiera puede tomar la solicitud,
-   procesarla y recibir la recompensa, en el caso de dos subnets privadas con información
-   sensible, se puede definir un relayer de confianza que pueda retransmitir la información
-   sin exponerla fuera de una frontera geografica o de una empresa.{" "}
-6. <b>message</b> es el mensaje que se envia en formato bytes, para hacerlo podemos
-   hacer uso de la función <b>abi.encode()</b>, un ejemplo al enviar dos
-   números, <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
+2. <b>destinationAddress</b> is the address of the contract that will receive the
+   message in the destination subnet, i.e., the address of the receiving contract.
+
+3. <b>feeInfo</b> contains the information of the ERC20 address and the amount that
+   will be paid as an incentive to the Relayer for their work, in the test cases
+   of the mentioned networks there is a public Relayer, so there is no need to send
+   an incentive to these, that's why we define an address of 0 and an amount of 0
+   (This will be very important as it plays a key role as the incentive for the entities
+   that send the information between subnets).
+
+4. <b>requiredGasLimit</b> is the required gas limit to execute the transaction,
+   if not defined the relayer can send the transaction with less gas and still receive
+   the reward regardless of whether the message is delivered to the destination subnet
+   or not.
+
+5. <b>allowedRelayerAddresses</b> is a whitelist of addresses that can serve as Relayers
+   to send information from our network to the destination network, if it is empty
+   as in our example it indicates that anyone can take the request, process it, and
+   receive the reward, in the case of two private subnets with sensitive information,
+   a trusted relayer can be defined who can relay the information without exposing
+   it outside of a geographic boundary or a company.
+
+6. <b>message</b> is the message being sent in bytes format, to do this we can make
+   use of the <b>abi.encode()</b> function, an example when sending two numbers, <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
        num1
-   </span> y <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
+   </span> and <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
        num2
-   </span> es el siguiente
-   <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
+   </span> is as follows <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
        bytes memory message = abi.encode(num1,num2);
-   </span>
+   </span> where the variable <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
+       message
+   </span> is in the appropriate format to be sent.
 
-    donde la variable <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
-    message</span> se encuentra en el formato adecuado para ser enviado.
+### Code Example
 
-### Ejemplo de código
-
-A continuación, veremos un ejemplo de un código que envía información desde la subnet de C-Chain a la subnet de Dispatch
+Below, we'll see an example of code that sends information from the C-Chain subnet to the Dispatch subnet.
 
 ```solidity
 // SPDX-License-Identifier: Ecosystem
@@ -179,39 +180,39 @@ contract SenderOnCChainWithRegistry {
 }
 ```
 
-En el anterior código de ejemplo se mandan un texto a un contrato en la subnet de Dispatch, la función <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">sendMessage</span> se encarga de recibir la dirección del contrato en Dispatch y el mensaje que se quiere enviar, con dicha información se emite un evento con la información de la dirección del contrato en Dispatch, el identificador de esa subnet en la P - Chain, una recompensa para el Relayer que tome la transacción, instrucciones de cuanto gas puede gastar, una lista de los Relayers que pueden ejecutarla (En este ejemplo es cero por lo que cualquiera la puede tomar) y el mensaje en bytes.
+In the previous example code, a text is sent to a contract in the Dispatch subnet. The function <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">sendMessage</span> is responsible for receiving the address of the contract in Dispatch and the message to be sent. With this information, an event is emitted with the information of the contract address in Dispatch, the identifier of that subnet in the P-Chain, a reward for the Relayer who takes the transaction, instructions on how much gas can be spent, a list of Relayers that can execute it (In this example it is zero so anyone can take it), and the message in bytes.
 
-En ese punto un relayer de manera automática toma la solicitud y hace las validaciones pertinentes enviando el mensaje a la subnet de destino.
+At this point, a relayer automatically takes the request and performs the necessary validations, sending the message to the destination subnet.
 
-## Implementación de recepción de información
+## Implementation of Information Reception
 
-Un contrato que recibirá la información en una Subnet de destino proveniente de una subnet de origen, debe importar los contrato de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterReceiver.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterReceiver.sol</a> y de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a>, al hacerlo podra instanciar el contrato de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">ITeleporterMessenger</span> y validar quien trata de llamar sus métodos, y la función más importante en este caso, la de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">receiveTeleporterMessage</span> , esta última es la ejecutada por el <b>Relayer</b> una vez a confirmado que todo está correcto y que puede enviar el mensaje, esta función le entrega a este contrato en la Subnet de destino el id de la cadena de origen del mensaje en la P - Chain, la dirección del contrato que le envió el mensaje en la cadena de origen y el mensaje que le enviaron.
+A contract that will receive the information in a destination subnet from an origin subnet must import the contracts of <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a>, <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterReceiver.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterReceiver.sol</a>, and <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a>. By doing so, it will be able to instantiate the contract of <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">ITeleporterMessenger</span> and validate who is trying to call its methods, and the most important function in this case, the <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">receiveTeleporterMessage</span> function. This latter function is executed by the Relayer once it confirms that everything is correct and it can send the message. This function delivers to this contract in the destination subnet the id of the origin chain of the message in the P-Chain, the address of the contract that sent the message in the origin chain, and the message they sent.
 
-Si rompemos nuevamente la cuarta pared y tomamos consciencia sin irnos en piloto automático por el mundo, nos daremos cuenta que en esta subnet también debe de haber sido desplegado un contrato de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a> y <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a> y casualmente la dirección de este contrato es la misma que en <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">C-Chain</span>: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span> . Bueno nada es casualidad, tiene que ver con la wallet usada para el despliegue, pero de eso hablaremos en otra ocasión.
+If we break the fourth wall again and become aware without going on autopilot through the world, we will realize that in this subnet there must also have been deployed a contract of <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterMessenger.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterMessenger.sol</a> and <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a>, and coincidentally the address of this contract is the same as in the <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">C-Chain</span>: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span>. Well, nothing is a coincidence, it has to do with the wallet used for deployment, but we'll talk about that another time.
 
-### Instancia
+### Instance
 
-Con lo anterior en mente y siendo conscientes nuevamente de que estamos haciendo, podemos decir que debemos definir una instancia de ese contrato en nuestro contrato para poder acceder a sus métodos, y para eso debemos darle la dirección en la cual fue previamente desplegado dicho contrato, en nuestra subnet de destino, este contrato está desplegado en la dirección: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span> por lo que una instancia se resume a escribir la siguiente linea de código:
+With the above in mind and being aware again of what we are doing, we can say that we must define an instance of that contract in our contract to be able to access its methods, and for that, we must give it the address at which said contract was previously deployed, in our destination subnet, this contract is deployed at the address: <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span> so an instance is summarized in writing the following line of code:
 
 <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
     TeleporterRegistry public immutable teleporterRegistry =
     TeleporterRegistry(0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b);
 </span>
 
-Es decir, una variable publica, inmutable de tipo <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">TeleporterRegistry</span> que viene de la importación del repositorio de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a>, con el nombre de teleporterRegistry, la cual es igual a una instancia de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">TeleporterRegistry</span> a la dirección <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span>.
+That is, a publica and immutable variable of type <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">TeleporterRegistry</span> coming from the import of the repository of <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/upgrades/TeleporterRegistry.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">TeleporterRegistry</a>, named teleporterRegistry, which is equal to an instance of <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">TeleporterRegistry</span> at the address <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">0xEeeAA8e0e25802A3748Cd7FbFA96b851E76DFF9b</span>.
 
-Ahora instanciamos nuestro teleporterMessenger así:
+Now, we instantiate our teleporterMessenger like this:
 
 <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">
     ITeleporterMessenger teleporterMessenger =
     teleporterRegistry.getLatestTeleporter();
 </span>
 
-### Recepción de información
+### Information Reception
 
-Para recibir la información podemos simplemente llamar la función <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">receiveTeleporterMessage</span> que proviene del contrato de <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterReceiver.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterReceiver.sol</a>, y usar las variables de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">originChainID</span>, <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">originSenderAddress</span> y <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">message</span>
+To receive the information, we can simply call the function <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">receiveTeleporterMessage</span> from the <a href="https://github.com/ava-labs/teleporter/blob/main/contracts/src/Teleporter/ITeleporterReceiver.sol" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">ITeleporterReceiver.sol</a> contract, and use the variables <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">originChainID</span>, <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">originSenderAddress</span>, and <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">message</span>.
 
-Pensemos de nuevo conscientemente un momento, estamos accediendo a funciones de un código, ¿Cómo es posible este suceso? Esto es gracias a la herencia por lo tanto nuesto contrato debe heredar de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">ITeleporterReceiver,</span> para esto se debe crear el contrato así:
+Let's consciously think for a moment again, we are accessing functions of a code, how is this possible? This is thanks to inheritance, therefore our contract must inherit from <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">ITeleporterReceiver,</span> for this the contract must be created as follows:
 
 ```solidity
 contract ReceiveMessageOnDispatch is ITeleporterReceiver {
@@ -219,21 +220,21 @@ contract ReceiveMessageOnDispatch is ITeleporterReceiver {
 }
 ```
 
-Con esto aseguramos que podemos hacer uso de las funciones de ITeleporterReceiver, funciones como la de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">receiveTeleporterMessage.</span>
+With this, we ensure that we can use the functions of ITeleporterReceiver, functions such as <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">receiveTeleporterMessage.</span>
 
-Una vez tenemos la información y validamos que si venga de un Relayer y de otra blockchain y no la llamo un usuario desde un explorador de bloques o desde otro contrato, es el momento de ver el mensaje, y para eso debemos pasar de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">bytes</span> a nuestra tipo original, en nuestro ejemplo unos <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">uint256</span>, para eso podemos acceder a los variables de la siguiente manera:
+Once we have the information and validate that it comes from a Relayer and from another blockchain and is not called by a user from a block explorer or from another contract, it's time to see the message, and for that, we must convert from <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">bytes</span> to our original type, in our example some <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">uint256</span>, for this, we can access the variables as follows:
 
 ```solidity
 lastMessage = abi.decode(message, (string));
 ```
 
-Con la linea anterior estamos diciendole a nuestro código que va a crear una variable local de tipo <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">string</span> y su valor será el obtenido luego de pasar por un proceso de <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">decode</span> del mensaje recibido.
+With the above line, we're telling our code to create a local variable of type <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">string</span> and its value will be obtained after going through a decoding process of the received message.
 
-Luego de esto podemos procesar las variables <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">lastMessage</span> como queramos en las funciones que queramos.
+After this, we can process the <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">lastMessage</span> variables as we want in the functions we want.
 
-### Ejemplo de código
+### Code Example
 
-A continuación, veremos un ejemplo de un código de un contrato que está recibiendo un mensaje en Dispatch proveniente de C-Chain
+Below, we'll see an example of code of a contract that is receiving a message in Dispatch from C-Chain.
 
 ```solidity
 // SPDX-License-Identifier: Ecosystem
@@ -279,10 +280,10 @@ contract ReceiverOnDispatchWithRegistry is ITeleporterReceiver {
 }
 ```
 
-En el anterior código se ve como la función <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">receiveTeleporterMessage</span> se encarga de recibir el mensaje, validar la procedencia de este y ejecutar lógica con base en lo recibido, dicha lógica modifica el estado de las variables en dicho contrato por lo que es facil validar que si se ejecuto correctamente nuestra conexión entre las subnets.
+In the previous code, we can see how the <span style="background-color: #f5f5f5; padding: 2px 4px; border-radius: 4px; font-family: monospace;">receiveTeleporterMessage</span> function is responsible for receiving the message, validating its origin, and executing logic based on what is received. This logic modifies the state of the variables in the contract, making it easy to validate if our connection between the subnets was executed correctly.
 
-## Conclusión
+## Conclusion
 
-Luego de revisar a detalle cada contrato podemos concluir que el envío de información entre subnets haciendo uso de Teleporter requiere de un contrato emisor que instancia un contrato de Teleporter en la subnet de origen y un contrato receptor que hereda un contrato de teleporter e instancia otro en la subnet de destino, a su vez, sabemos que los mensajes se mandan en tipo bytes, por lo que es muy importante hacer el <b>encode</b> y <b>decode</b>, tanto en la red de origen como en la de llegada respectivamente.
+After reviewing each contract in detail, we can conclude that sending information between subnets using Teleporter requires an emitting contract that instantiates a Teleporter contract in the source subnet and a receiving contract that inherits from a Teleporter contract and instantiates another in the destination subnet. Furthermore, we know that messages are sent in bytes, so it is essential to perform <b>encode</b> and <b>decode</b> operations, both in the source and destination networks respectively.
 
-Luego de tener la información el cielo es el limite, ya que podemos mandar cualquier tipo de dato y de lógica entre una red y otra, los invito a contribuir en este <a href="https://github.com/alejandro99so/teleporter" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">proyecto</a> creado por mi, donde hay un ejemplo de un contrato de teleporter desacoplando un poco el envio de información y la recepción con contratos proxies, usando hardhat con typescript, allí podrán aumentar la complejidad del ejemplo e iremos construyendo estructuras más interesante para aprender entre todos.
+Once we have the information, the sky's the limit, as we can send any type of data and logic between one network and another. I invite you to contribute to this <a href="https://github.com/alejandro99so/teleporter" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: black;">project</a> created by me, where there is an example of a teleporter contract, somewhat decoupling the sending of information and the reception with proxy contracts, using Hardhat with TypeScript. There, you can increase the complexity of the example, and we will build more interesting structures to learn together.

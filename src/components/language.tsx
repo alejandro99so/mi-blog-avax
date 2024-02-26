@@ -110,6 +110,9 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({ updateLanguage }) => {
                                         className={styles.language_list_element}
                                     >
                                         <Image
+                                            className={
+                                                styles.language_list_element_image
+                                            }
                                             src={language.flag}
                                             alt={"Flag 2"}
                                             width={30}
