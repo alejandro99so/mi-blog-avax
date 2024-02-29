@@ -48,7 +48,7 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({ updateLanguage }) => {
                 JSON.stringify(selectedLanguage)
             );
         }
-    }, [selectedLanguage]);
+    }, [selectedLanguage, updateLanguage]);
 
     const languages = [
         { code: "es", name: "Español", flag: "/images/colombia.png" },

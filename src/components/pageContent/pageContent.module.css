@@ -1,0 +1,6 @@
+.container {
+  display: flex;
+  margin-top: 5.4%;
+  background-color: var(--bg);
+  color: var(--softTextColor);
+}

@@ -1,0 +1,47 @@
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  transition: transform 0.5s, background-color 0.9s, color 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 250px;
+  cursor: pointer;
+  background-color: invert(var(--softTextColor));
+  color: var(--textColor);
+  text-decoration: none;
+
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  background-color: #e84142;
+  color: invert(var(--textColor));
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary {
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+.prompt {
+  font-weight: bold;
+}

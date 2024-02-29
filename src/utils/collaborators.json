@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Alejandro Soto",
+    "role": {
+      "es": "Guía de Blockchain y Desarrollador de Software",
+      "en": "Blockchain Guide and Software Developer"
+    },
+    "summary": {
+      "es": "Un desarrollador de software apasionado por la tecnología...",
+      "en": "A software developer passionate about technology..."
+    },
+    "socialNetworks": {
+      "instagram": "alejandro99so",
+      "twitter": "alejandro99so",
+      "github": "alejandro99so"
+    },
+    "username": "alejandro99so"
+  },
+  {
+    "name": "Alejandro Lezama",
+    "role": {
+      "es": "Desarrollador de Software",
+      "en": "Software Developer"
+    },
+    "summary": {
+      "es": "Un desarrollador de software apasionado por la tecnología...",
+      "en": "A software developer passionate about technology..."
+    },
+    "socialNetworks": {
+      "instagram": "alez2312p",
+      "twitter": "alez2312p",
+      "github": "alez2312p"
+    },
+    "username": "alez2312p"
+  }
+]

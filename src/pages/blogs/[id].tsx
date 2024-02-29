@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import styles from "../../styles/BlogElement.module.css";
+import styles from "./BlogElement.module.css";
 import { marked } from "marked";
 import { useEffect, useState } from "react";
 import Head from "next/head";

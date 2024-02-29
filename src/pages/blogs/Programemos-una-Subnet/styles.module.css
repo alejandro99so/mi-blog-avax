@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  background-color: var(--bg);
+  color: var(--softTextColor);
+}
+.border {
+  border-right: 1px solid #ccc;
+}
+.description {
+  padding: 1rem 4rem;
+}
+
+.content {
+  padding-top: 2.25rem;
+  padding-bottom: 2.25rem;
+  text-align: justify;
+  max-width: 48rem /* 768px */;
+}
+
+.numberedList {
+  padding-top: 1rem;
+  padding-left: 2rem;
+}
+
+.numberedList li {
+  margin-bottom: 10px;
+}
+
+.span {
+  font-size: 14px; /* Tamaño del texto del subtítulo */
+  font-weight: 350; /* Peso de fuente normal */
+  margin-bottom: 10px; /* Espaciado inferior */
+}
+
+.link {
+  text-decoration: none;
+  color: var(--textColor);
+}

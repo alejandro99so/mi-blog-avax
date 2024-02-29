@@ -1,0 +1,33 @@
+.container {
+  padding-bottom: 2.25rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.icon {
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.copySuccess {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgb(34 197 94 / var(--tw-text-opacity));
+}
