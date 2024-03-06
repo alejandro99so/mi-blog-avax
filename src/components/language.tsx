@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, FC } from "react";
 import styles from "../styles/Language.module.css";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import languageData from "@/utils/content.json";
 
 type ILanguage = {
     code: string;
@@ -11,6 +13,18 @@ type ILanguage = {
 interface LanguageSelectorProps {
     updateLanguage: (code: string) => void;
 }
+
+// Definiendo el tipo para el contenido del archivo JSON
+interface ILanguageData {
+    [key: string]: { // key es el código del idioma, por ejemplo, 'es' o 'en'
+        path: string;
+        title: string;
+        summary: string;
+        backgroundImage: string;
+    };
+}
+
+const languageDataTyped = languageData as ILanguageData[];
 
 const LanguageSelector: FC<LanguageSelectorProps> = ({ updateLanguage }) => {
     const getInitialLanguage = () => {
@@ -72,10 +86,40 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({ updateLanguage }) => {
 
     const toggleDropdown = () => setIsOpen(!isOpen);
 
+    const router = useRouter();
+
+    const findRouteForNewLanguage = (currentPath: string, newLanguageCode: string, routesInfo: ILanguageData[]): string => {
+        // Encuentra el objeto de ruta actual basado en la ruta actual y el código de idioma actual
+        const currentRoute = routesInfo.find(routeInfo => Object.values(routeInfo).some(route => route.path === currentPath));
+
+        if (!currentRoute) return '/'; // Retorna a la ruta de inicio si no se encuentra la ruta actual
+
+        // Accede a la ruta correspondiente en el nuevo idioma
+        const newRoute = currentRoute[newLanguageCode];
+        return newRoute ? newRoute.path : '/';
+    };
+
+
     const handleLanguageChange = (language: ILanguage) => {
         setSelectedLanguage(language);
         setIsOpen(false);
+
+        const currentPath = router.asPath;
+        const newPath = findRouteForNewLanguage(currentPath, language.code, languageDataTyped);
+        router.push(newPath);
     };
+
+    const [windowWidth, setWindowWidth] = useState<number>(0);
+    const updateDimensions = () => {
+        setWindowWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener("resize", updateDimensions);
+        updateDimensions();
+
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, []);
 
     return (
         <div className={styles.language} ref={dropdownRef}>
@@ -91,7 +135,9 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({ updateLanguage }) => {
                             width={30}
                             height={15}
                         />
-                        {selectedLanguage.name}
+                        <span className={windowWidth <= 700 ? styles.language_name_hidden : ''}>
+                            {selectedLanguage.name}
+                        </span>
                         <span>{isOpen ? "▲" : "▼"}</span>
                     </div>
                     {isOpen && (
@@ -118,7 +164,9 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({ updateLanguage }) => {
                                             width={30}
                                             height={16}
                                         />
-                                        {language.name}
+                                        <span className={windowWidth <= 700 ? styles.language_name_hidden : ''}>
+                                            {language.name}
+                                        </span>
                                     </li>
                                 ))}
                         </ul>

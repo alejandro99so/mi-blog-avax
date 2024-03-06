@@ -1,12 +1,30 @@
 import styles from "./footer.module.css";
 import collaboratorsData from '@/utils/collaborators.json';
 import CollaboratorCard from "../CollaboratorCard/CollaboratorCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 
 const Footer = () => {
-    const cardsToShow = 4;
+    const [cardsToShow, setCardsToShow] = useState(4);
     const [startIndex, setStartIndex] = useState(0);
+
+    useEffect(() => {
+        const updateCardsToShow = () => {
+            const width = window.innerWidth;
+            if (width >= 700) {
+                setCardsToShow(4)
+            } else if (width >= 600) {
+                setCardsToShow(2)
+            } else if (width <= 530) {
+                setCardsToShow(1)
+            }
+        };
+
+        window.addEventListener('resize', updateCardsToShow);
+        updateCardsToShow();
+
+        return () => window.removeEventListener('resize', updateCardsToShow);
+    }, []);
 
     const handlePrevClick = () => {
         setStartIndex((prevIndex) => (prevIndex > 1 ? prevIndex - 2 : 0));

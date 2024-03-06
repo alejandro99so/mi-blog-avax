@@ -19,11 +19,26 @@
   margin-bottom: 1rem;
 }
 
-.collaboratorCard b {
+.name {
   margin-bottom: 0.5rem;
+  color: var(--softTextColor);
 }
 
-.collaboratorCard p {
+.role {
   width: 50%;
   margin-bottom: 0.25rem;
+  color: var(--softTextColor);
+}
+
+@media (max-width: 700px) {
+  .role {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 425px) {
+  .role {
+    font-size: x-small;
+  }
 }

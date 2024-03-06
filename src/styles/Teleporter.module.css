@@ -3,11 +3,9 @@
   background-color: var(--bg);
   color: var(--softTextColor);
 }
-.border {
-  border-right: 1px solid #ccc;
-}
+
 .description {
-  padding: 1rem 4rem;
+  padding: 1rem;
 }
 
 .content {

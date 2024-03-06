@@ -1,7 +1,6 @@
 import Title from '@/components/title/Title';
 import React from 'react';
-import styles from "./styles.module.css"
-import Sidebar from '@/components/sidebar/Sidebar';
+import styles from "@/styles/LetsProgramSubnet.module.css";
 import Navigation from '@/components/navigation/Navigation';
 import PageContent from '@/components/pageContent/PageContent';
 import Subtitle from '@/components/subtitle/Subtitle';
@@ -13,7 +12,7 @@ const ProgramemosUnaSubnet: React.FC = () => {
     return (
         <PageContent>
             <div className={styles.container}>
-                <hr className={styles.border} />
+
                 <article className={styles.description}>
                     <div className={styles.content}>
                         <Title title='Programemos una Subnet' />
@@ -58,7 +57,7 @@ const ProgramemosUnaSubnet: React.FC = () => {
                                 <span className={styles.span}> bash</span> por lo que el código se manda al archivo <span className={styles.span}> .bashrc</span>, si nuestra términal ejecuta
                                 <span className={styles.span}> zsh</span> debemos mandar el código a <span className={styles.span}> .zshrc</span>, ahora se preguntaran que ni idea que no están seguros de que usa su pc, no pasa nada, escriban
                                 <span className={styles.span}> cat .bashrc</span> si esto muestra algo su terminal usa <span className={styles.span}> bash</span>, en mi caso al hacerlo recibo el contenido del archivo y al correr
-                                <span className={styles.span}> cat .zshrc</span> recibo esto: <span className={styles.span}> cat: .zshrc:</span> No such file or directory lo que significa que mi terminal usa bash en lugar de <span className={styles.span}> zsh</span>.
+                                <span className={styles.span}> cat .zshrc</span> recibo esto: <span className={styles.span}> cat: .zshrc: No such file or directory</span> lo que significa que mi terminal usa <span className={styles.span}>bash</span> en lugar de <span className={styles.span}> zsh</span>.
                             </li>
                         </ol>
                         <br />
@@ -107,7 +106,7 @@ const ProgramemosUnaSubnet: React.FC = () => {
                             <li>
                                 <b>Selección del identificador de la cadena para la subnet:</b> El concepto <b>chainId</b> puede resultar un poco confuso al incio, pero no es nada del otro mundo, es solo como nuestro número de identificación, cada blockchain tiene uno y es importante no repetir, ya que sería feo que
                                 alguién comparta tu mismo número de identificación también es feo y generar confusión compartir el mismo número de identificación en el universo de las blockchain, para estar seguro de no repetir, buscamos en el registro unico de documentos de identificación para blockchains (Es broma me invente ese nombre)
-                                el cual es y <Link href="https://chainlist.org/">https://chainlist.org</Link> le decimos que queremos incluir documentos de adultos y de menores de edad (Es decir incluir Testnets), y hacemos la busqueda, escribiendo un número por ejemplo hoy es 27 de enero de 2024, por lo que probare el número <b>270124</b> y
+                                el cual es <Link href="https://chainlist.org/">https://chainlist.org</Link> y le decimos que queremos incluir documentos de adultos y de menores de edad (Es decir incluir Testnets), y hacemos la busqueda, escribiendo un número por ejemplo hoy es 27 de enero de 2024, por lo que probare el número <b>270124</b> y
                                 ¡Oh sorpresa! Está disponible, por lo que se que puedo usar <b>270124</b> como un chainId ya que no colisionará con otro documento de identificación de otra blockchain, así como este puedo probar cualquier otro número y la página de <Link href="https://chainlist.org">https://chainlist.org</Link> me dará la disponibilidad de este.
                             </li>
                             <li>
@@ -238,9 +237,9 @@ const ProgramemosUnaSubnet: React.FC = () => {
                                         <b>Símbolo del Token de la Red:</b> TNET
                                     </li>
                                     <li>
-                                        <b>Network Token Name:</b> TestNet coin (Nombre que verán los demás del token)
+                                        <b>Nombre del token de red:</b> TestNet coin (Nombre que verán los demás del token)
                                     </li>
-                                    Lo demás lo dejaremos vacío por ahora, y le damos clic en Guardar.
+                                    Lo demás lo dejaremos vacío por ahora, y le damos clic en <b>Guardar</b>.
                                 </ol>
                                 <br />
                                 <li>
@@ -255,7 +254,10 @@ const ProgramemosUnaSubnet: React.FC = () => {
                                 <br />
                                 <br />
                                 Si hemos llegado hasta aquí, felicidades, ya tenemos nuestra subnet en nuestra wallet core, ya podemos usarla para
-                                desplegar contratos inteligentes en Remix.
+                                desplegar contratos inteligentes en
+                                <Link href="https://remix.ethereum.org" target='_blank' rel="noopener noreferrer" className={styles.link}>
+                                    <b> Remix.</b>
+                                </Link>
                             </li>
                         </ol>
                         <br />
@@ -308,7 +310,7 @@ const ProgramemosUnaSubnet: React.FC = () => {
                                         <b>Nombre de la red:</b> testNet.
                                     </li>
                                     <li>
-                                        <b>URL de RPC de la red:</b> <i>http://127.0.0.1:9650/ext/bc/27J…wEH/rpc</i> (Nuesto RPC).
+                                        <b>URL de RPC de la red:</b> <i>http://127.0.0.1:9650/ext/bc/27J…wEH/rpc</i> (Nuestro RPC).
                                     </li>
                                     <li>
                                         <b>ID de la cadena:</b> 270124.
@@ -316,7 +318,7 @@ const ProgramemosUnaSubnet: React.FC = () => {
                                     <li>
                                         <b>Símbolo del Token de la Red:</b> TNET
                                     </li>
-                                    y finalizamos dandole clic en Guardar, seguido vemos el siguiente mensaje:
+                                    y finalizamos dandole clic en <b>Guardar</b>, seguido vemos el siguiente mensaje:
                                 </ol>
                                 <br />
                                 <Image

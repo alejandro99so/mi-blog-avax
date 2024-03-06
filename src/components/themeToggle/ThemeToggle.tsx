@@ -11,22 +11,10 @@ const ThemeToggle = () => {
     <div
       className={styles.container}
       onClick={toggle}
-      style={
-        theme === "dark"
-          ? { backgroundColor: "white" }
-          : { backgroundColor: "#0f172a" }
+    >{theme === "dark"
+      ? <Image src="/sun.png" alt="sun" loading="lazy" width={25} height={25} />
+      : <Image src="/moon.png" alt="moon" loading="lazy" width={25} height={25} />
       }
-    >
-      <Image src="/moon.png" alt="moon" loading="lazy" width={14} height={14} />
-      <div
-        className={styles.ball}
-        style={
-          theme === "dark"
-            ? { left: 1, backgroundColor: "#0f172a" }
-            : { right: 1, backgroundColor: "white" }
-        }
-      ></div>
-      <Image src="/sun.png" alt="sun" loading="lazy" width={14} height={14} />
     </div>
   );
 };

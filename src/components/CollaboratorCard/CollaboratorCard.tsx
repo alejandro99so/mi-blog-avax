@@ -33,8 +33,8 @@ const CollaboratorCard: React.FC<CollaboratorCardProps> = ({ collaborator }) => 
                 height={60}
                 className={styles.image}
             />
-            <b>{collaborator.name}</b>
-            <p>{collaborator.role[lang]}</p>
+            <b className={styles.name}>{collaborator.name}</b>
+            <p className={styles.role}>{collaborator.role[lang]}</p>
             <SocialNetworks links={collaborator.socialNetworks} username={collaborator.username} />
         </div>
     );

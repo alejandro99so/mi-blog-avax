@@ -18,3 +18,9 @@
 .link:hover {
   font-weight: 600;
 }
+
+@media (max-width: 700px) {
+  .container {
+    display: none;
+  }
+}

@@ -1,6 +1,5 @@
 import Title from '@/components/title/Title';
 import React from 'react';
-import styles from "./styles.module.css"
 import Navigation from '@/components/navigation/Navigation';
 import PageContent from '@/components/pageContent/PageContent';
 import Link from 'next/link';
@@ -8,13 +7,14 @@ import Image from 'next/image';
 import Subtitle from '@/components/subtitle/Subtitle';
 import CommandBlock from '@/components/CommandBlock/CommandBlock';
 import CodeBlock from '@/components/CodeBlock/CodeBlock';
-import { ReceiverOnDispatchWithRegistry, SenderOnCChainWithRegistry, TeleporterMessageInput } from '../../../utils/data/code';
+import styles from "@/styles/Teleporter.module.css";
+import { TeleporterMessageInput, SenderOnCChainWithRegistry, ReceiverOnDispatchWithRegistry } from '@/utils/data/code';
 
 const Teleporter: React.FC = () => {
     return (
         <PageContent>
             <div className={styles.container}>
-                <hr className={styles.border} />
+
                 <article className={styles.description}>
                     <div className={styles.content}>
                         <Title title='Teleporter' />

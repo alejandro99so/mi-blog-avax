@@ -1,6 +1,6 @@
 import Title from '@/components/title/Title';
 import React from 'react';
-import styles from "./styles.module.css"
+import styles from "@/styles/References.module.css"
 import Navigation from '@/components/navigation/Navigation';
 import PageContent from '@/components/pageContent/PageContent';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ const Referencias: React.FC = () => {
     return (
         <PageContent>
             <div className={styles.container}>
-                <hr className={styles.border} />
+
                 <article className={styles.description}>
                     <div className={styles.content}>
                         <Title title='Referencias' />

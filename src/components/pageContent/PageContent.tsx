@@ -15,6 +15,7 @@ const PageContent: React.FC<PageContentProps> = ({ children }) => {
             <Sidebar
                 language={language}
             />
+            <hr className={styles.border} />
             {children}
         </div>
     );

@@ -1,14 +1,15 @@
 import Title from '@/components/title/Title';
 import React from 'react';
-import styles from "./styles.module.css"
+import styles from "@/styles/WhatIsSubnet.module.css"
 import Navigation from '@/components/navigation/Navigation';
 import PageContent from '@/components/pageContent/PageContent';
+import Link from 'next/link';
 
 const QueEsUnaSubnet: React.FC = () => {
     return (
         <PageContent>
             <div className={styles.container}>
-                <hr className={styles.border} />
+
                 <article className={styles.description}>
                     <div className={styles.content}>
                         <Title title='¿Qué es una Subnet?' />
@@ -45,7 +46,8 @@ const QueEsUnaSubnet: React.FC = () => {
                             </li>
                         </ol>
                         <p>
-                            Los anteriores son algunos ejemplos y casos de mejoras potenciales que puede tener una subnet usando la tencología de Avalanche, para aprender un poco más de esto, les recomiendo el curso oficial de la Academia de Avalanche.
+                            Los anteriores son algunos ejemplos y casos de mejoras potenciales que puede tener una subnet usando la tencología de Avalanche, para aprender un poco más de esto, les recomiendo el curso oficial de la
+                            <Link href="" target='_blank' rel='noopener noreferrer' className={styles.link}> <b>Academia de Avalanche</b>.</Link>
                         </p>
                     </div>
                     <Navigation />
