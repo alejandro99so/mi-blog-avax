@@ -1,0 +1,17 @@
+.navigationButton {
+  padding: 1rem 0.5rem /* 16px */;
+  border: 1px solid #000; /* Ajustar según el diseño de Tailwind */
+  border-radius: 0.25rem; /* rounded */
+  background-color: var(--bg);
+  color: var(--softTextColor);
+  border: 1px solid #878585;
+  cursor: pointer;
+}
+
+.nextButton {
+  margin-left: auto;
+}
+
+.previousButton {
+  margin-right: auto;
+}

@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem /* 16px */;
+  width: 16rem /* 256px */;
+}
+
+.link {
+  display: block;
+  padding-top: 0.5rem /* 8px */;
+  padding-bottom: 0.5rem /* 8px */;
+  border-radius: 0.25rem /* 4px */;
+  transition-duration: 300ms;
+  color: var(--softTextColor);
+  text-decoration: none;
+}
+
+.link:hover {
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .container {
+    display: none;
+  }
+}

@@ -1,0 +1,44 @@
+.collaboratorCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0 0 auto;
+  width: 23%;
+  height: 250px;
+  box-sizing: border-box;
+  padding: 1rem;
+  text-align: center;
+}
+
+.image {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.name {
+  margin-bottom: 0.5rem;
+  color: var(--softTextColor);
+}
+
+.role {
+  width: 50%;
+  margin-bottom: 0.25rem;
+  color: var(--softTextColor);
+}
+
+@media (max-width: 700px) {
+  .role {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 425px) {
+  .role {
+    font-size: x-small;
+  }
+}

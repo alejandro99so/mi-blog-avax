@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  background-color: var(--bg);
+  color: var(--softTextColor);
+}
+
+.description {
+  padding: 1rem;
+}
+
+.content {
+  padding-top: 2.25rem;
+  padding-bottom: 2.25rem;
+  text-align: justify;
+  max-width: 48rem /* 768px */;
+}
+
+.quote {
+  font-style: italic; /* Para texto en cursiva */
+  border-left: 4px solid #ccc; /* Línea a la izquierda para citas destacadas */
+  padding-left: 1rem; /* Espacio entre la línea y el texto */
+  margin: 1rem 0; /* Margen alrededor de la cita */
+  display: block; /* Para asegurarse de que ocupe su propia línea */
+}

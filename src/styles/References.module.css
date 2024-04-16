@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  background-color: var(--bg);
+  color: var(--softTextColor);
+}
+
+.description {
+  padding: 1rem;
+}
+
+.content {
+  padding-top: 2.25rem;
+  padding-bottom: 2.25rem;
+  text-align: justify;
+  max-width: 48rem /* 768px */;
+}
+
+.link {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--textColor);
+}
